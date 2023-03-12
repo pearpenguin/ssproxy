@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: False
+  module_defaults:
+    group/aws:
+      aws_access_key: "{{ aws_access_key_id }}"
+      aws_secret_key: "{{ aws_secret_key }}"
+
+  tasks:
+    - name: Terminate all EC2 instances
+      amazon.aws.ec2_instance:
+        region: ap-southeast-2
+        state: terminated
+      register: ec2_result
+
+    - name: EC2 instance details
+      ansible.builtin.debug:
+        var: ec2_result
